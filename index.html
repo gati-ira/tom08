@@ -679,7 +679,7 @@
            const deltaTime = timestamp - lastTime;
 
            // 60FPS (約16.6ms) 経過していなければ処理をスキップ
-           if (deltaTime < 16.6) {
+           if (deltaTime < 83.3) {
                requestAnimationFrame(loop);
                return;
            }
