@@ -669,9 +669,30 @@
            isFiring = false; // 射撃リセット
            gameState = 'INIT';
        }
- 
-       function loop() { update(); draw(); requestAnimationFrame(loop); }
-       loop();
+      // --- ここから書き換え ---
+       let lastTime = 0; // 前回の実行時間を記録する変数
+
+       function loop(timestamp) {
+           // 最初の一回だけ実行
+           if (!lastTime) lastTime = timestamp;
+
+           const deltaTime = timestamp - lastTime;
+
+           // 60FPS (約16.6ms) 経過していなければ処理をスキップ
+           if (deltaTime < 16.6) {
+               requestAnimationFrame(loop);
+               return;
+           }
+
+           lastTime = timestamp;
+
+           update();
+           draw();
+           requestAnimationFrame(loop);
+       }
+       // --- ここまで ---
+
+       loop(); // 最初の呼び出し（引数なしでもブラウザが補完してくれます）
    </script>
 </body>
 </html>
