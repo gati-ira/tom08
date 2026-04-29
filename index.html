@@ -152,12 +152,11 @@
  
        <!-- Device Select -->
        <div id="device-select-screen">
-           <h1 style="letter-spacing: 5px; margin-bottom: 0;">GREEN STRIKER</h1>
-           <p style="color: #666; margin-bottom: 40px;">BATTLE READY</p>
-           <div style="display: flex; gap: 20px;">
-               <button class="btn" onclick="initDevice('PC')">🖥 PC MODE</button>
-               <button class="btn" onclick="initDevice('MOBILE')">📱 MOBILE MODE</button>
-           </div>
+          <div class="select-box">
+             <h2 style="color: var(--player-color); margin-bottom: 30px;">SELECT DEVICE</h2>
+             <button class="select-btn" onclick="selectDevice('pc', event)">PC MODE (Mouse)</button>
+             <button class="select-btn" onclick="selectDevice('mobile', event)">MOBILE MODE (Touch)</button>
+          </div>
        </div>
  
        <!-- Ship Select -->
