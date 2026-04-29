@@ -207,6 +207,12 @@
            <div id="lose-result-body" class="result-container"></div>
            <button class="btn" onclick="resetGame()">REBOOT</button>
        </div>
+
+       <div id="ranking-screen" class="modal">
+           <h2 style="color: var(--ult-color)">TOP 5 RANKING</h2>
+           <div id="ranking-list" class="result-container"></div>
+           <button class="btn" onclick="resetGame()">BACK TO TITLE</button>
+       </div>
    </div>
  
    <script>
@@ -617,19 +623,27 @@
            `;
        }
  
-       function handleBossDefeated() {
+     function handleBossDefeated() {
            if (gameState !== 'PLAYING') return;
-           gameState = 'VICTORY_PAUSE';
-           const isLast = currentStage >= 5;
-           document.getElementById('vic-result-body').innerHTML = calculateResults(isLast);
-           if (isLast) {
-               document.getElementById('vic-title').textContent = "GRAND VICTORY";
-               document.getElementById('next-btn').textContent = "BACK TO TITLE";
+
+           if (currentStage === 1) {
+               gameState = 'VICTORY_PAUSE';
+               setTimeout(() => {
+                   const name = prompt("全ステージクリア！ランキングに登録する名前を入力してください:", "PILOT");
+                   if (name) {
+                       submitAndShowRanking(name, score, deviceMode);
+                   } else {
+                       resetGame();
+                   }
+               }, 1000);
            } else {
+               // 1〜4面は通常通り
+               gameState = 'VICTORY_PAUSE';
+               document.getElementById('vic-result-body').innerHTML = calculateResults(false);
                document.getElementById('vic-title').textContent = `STAGE ${currentStage} CLEAR`;
                document.getElementById('next-btn').textContent = "NEXT STAGE";
+               document.getElementById('victory-screen').style.display = 'flex';
            }
-           document.getElementById('victory-screen').style.display = 'flex';
        }
  
        function endGame(v) {
@@ -668,6 +682,27 @@
            document.getElementById('mobile-controls').style.display = 'none';
            isFiring = false; // 射撃リセット
            gameState = 'INIT';
+       }
+       async function submitAndShowRanking(name, score, device) {
+           const API_URL = "https://ltxx4cu0a6.execute-api.ap-southeast-2.amazonaws.com/default/ScoreGetFanction"; // ここを書き換え
+           try {
+               const response = await fetch(API_URL, {
+                   method: "POST",
+                   headers: { "Content-Type": "application/json" },
+                   body: JSON.stringify({ name, score: Math.floor(score), device })
+               });
+               const topScores = await response.json();
+               let html = "";
+               topScores.forEach((s, i) => {
+                   html += `<div class="result-row"><span>${i+1}. ${s.name}</span><span>${Math.floor(s.score).toLocaleString()}</span></div>`;
+               });
+               document.getElementById('ranking-list').innerHTML = html;
+               document.getElementById('ranking-screen').style.display = 'flex';
+           } catch (e) {
+               console.error(e);
+               alert("ランキング接続エラー");
+               resetGame();
+           }
        }
       // --- ここから書き換え ---
        let lastTime = 0; // 前回の実行時間を記録する変数
