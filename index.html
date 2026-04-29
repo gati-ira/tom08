@@ -675,6 +675,7 @@
            boss.maxHp = boss.stageConfigs[0].hp; boss.hp = boss.maxHp;
            boss.x = WIDTH / 2; boss.targetX = WIDTH / 2;
            bullets = []; minions = []; effects = []; frame = 0;
+           score = 0; fireTimer = 0;
            document.getElementById('stage-display').textContent = "STAGE 1";
            document.getElementById('victory-screen').style.display = 'none';
            document.getElementById('gameover-screen').style.display = 'none';
