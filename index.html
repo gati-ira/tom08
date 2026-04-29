@@ -684,7 +684,7 @@
            gameState = 'INIT';
        }
        async function submitAndShowRanking(name, score, device) {
-           const API_URL = "https://ltxx4cu0a6.execute-api.ap-southeast-2.amazonaws.com/default/ScoreGetFanction"; // ここを書き換え
+           const API_URL = "https://ltxx4cu0a6.execute-api.ap-southeast-2.amazonaws.com/default"; // ここを書き換え
            try {
                const response = await fetch(API_URL, {
                    method: "POST",
