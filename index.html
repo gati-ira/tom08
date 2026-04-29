@@ -152,11 +152,12 @@
  
        <!-- Device Select -->
        <div id="device-select-screen">
-          <div class="select-box">
-             <h2 style="color: var(--player-color); margin-bottom: 30px;">SELECT DEVICE</h2>
-             <button class="select-btn" onclick="selectDevice('pc', event)">PC MODE (Mouse)</button>
-             <button class="select-btn" onclick="selectDevice('mobile', event)">MOBILE MODE (Touch)</button>
-          </div>
+           <h1 style="letter-spacing: 5px; margin-bottom: 0;">GREEN STRIKER</h1>
+           <p style="color: #666; margin-bottom: 40px;">BATTLE READY</p>
+           <div style="display: flex; gap: 20px;">
+               <button class="btn" onclick="initDevice('PC')">🖥 PC MODE</button>
+               <button class="btn" onclick="initDevice('MOBILE')">📱 MOBILE MODE</button>
+           </div>
        </div>
  
        <!-- Ship Select -->
@@ -258,25 +259,19 @@
        };
  
        let bullets = [], effects = [], minions = [];
-
-       let isResetting = false;
  
-       function selectDevice(device, event) {
-          if (event) {
-             event.stopPropagation();
-             event.preventDefault();
-          }
-          if (device === 'mobile') {
-             isMobile = true;
-             document.getElementById('mobile-controls').style.display = 'grid';
-          } else {
-             isMobile = false;
-             document.getElementById('mobile-controls').style.display = 'none';
-          }
-          document.getElementById('device-select-screen').style.display = 'none';
-          gameState = 'PLAYING';
-          isFiring = false;
-          fireTimer = 0;
+       function initDevice(mode) {
+           deviceMode = mode;
+           const container = document.getElementById('game-container');
+           if (mode === 'MOBILE') {
+               container.style.width = "96vw"; container.style.height = "92vh";
+           } else {
+               container.style.width = "600px"; container.style.height = "800px";
+           }
+           document.getElementById('device-select-screen').style.display = 'none';
+           document.getElementById('selection-screen').style.display = 'flex';
+       }
+ 
        // --- Controls Logic ---
        window.onkeydown = e => {
            keys[e.key.toLowerCase()] = true;
@@ -628,7 +623,7 @@
            `;
        }
  
-       function handleBossDefeated() {
+     function handleBossDefeated() {
            if (gameState !== 'PLAYING') return;
 
            if (currentStage === 5) {
@@ -676,8 +671,6 @@
        }
  
        function resetGame() {
-           if (isResetting) return; // すでにリセット中なら無視
-           isResetting = true;
            currentStage = 1; player.x = WIDTH / 2; player.y = HEIGHT - 150;
            boss.maxHp = boss.stageConfigs[0].hp; boss.hp = boss.maxHp;
            boss.x = WIDTH / 2; boss.targetX = WIDTH / 2;
@@ -691,9 +684,6 @@
            document.getElementById('ranking-screen').style.display = 'none';
            isFiring = false; // 射撃リセット
            gameState = 'INIT';
-           setTimeout(() => {
-               isResetting = false;
-           }, 500);
        }
        async function submitAndShowRanking(name, score, device) {
            const API_URL = "https://ltxx4cu0a6.execute-api.ap-southeast-2.amazonaws.com/default/"; // ここを書き換え
@@ -716,10 +706,10 @@
                resetGame();
            }
        }
-       const restartText = "画面をクリックしてリスタート";
-       ctx.fillText(restartText, canvas.width / 2, canvas.height - 50);
+      const restartText = "画面をクリックしてリスタート";
+      ctx.fillText(restartText, canvas.width / 2, canvas.height - 50);
 
-       const restartHandler = (e) => {
+      const restartHandler = (e) => {
            if (e.type === 'mousedown' && e.button !== 0) return;
 
            canvas.removeEventListener('mousedown', restartHandler);
