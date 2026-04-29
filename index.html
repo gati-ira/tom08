@@ -626,7 +626,7 @@
      function handleBossDefeated() {
            if (gameState !== 'PLAYING') return;
 
-           if (currentStage === 1) {
+           if (currentStage === 5) {
                gameState = 'VICTORY_PAUSE';
                setTimeout(() => {
                    const name = prompt("全ステージクリア！ランキングに登録する名前を入力してください:", "PILOT");
