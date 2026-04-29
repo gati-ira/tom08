@@ -709,9 +709,9 @@
        ctx.fillText(restartText, canvas.width / 2, canvas.height - 50);
 
        const restartHandler = () => {
-       canvas.removeEventListener('click', restartHandler);
-       resetGame(); // ゲームを初期化する関数（あれば）
-       gameState = 'title'; // 状態をタイトルに戻す
+           canvas.removeEventListener('click', restartHandler);
+           resetGame(); // ゲームを初期化する関数（あれば）
+           gameState = 'title'; // 状態をタイトルに戻す
        };
        canvas.addEventListener('click', restartHandler);
       
