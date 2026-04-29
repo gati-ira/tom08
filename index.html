@@ -694,7 +694,7 @@
                const topScores = await response.json();
                let html = "";
                topScores.forEach((s, i) => {
-                   html += `<div class="result-row"><span>${i+1}. ${s.name}</span><span>${Math.floor(s.score).toLocaleString()}</span></div>`;
+                   html += `<div class="result-row"><span>${i+1}. ${s.name}</span><span>${Number(s.score).toLocaleString()}</span></div>`;
                });
                document.getElementById('ranking-list').innerHTML = html;
                document.getElementById('ranking-screen').style.display = 'flex';
