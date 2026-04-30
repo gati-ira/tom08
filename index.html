@@ -344,7 +344,7 @@
        function selectShip(type) {
            player.type = type; player.hitbox = 3.5;
            switch(type) {
-               case 'ATTACK': player.damageMult = 1.6; player.speed = 5.2; player.maxHp = 100; player.color = '#ff4444'; break;
+                              case 'ATTACK': player.damageMult = 1.6; player.speed = 5.2; player.maxHp = 140; player.color = '#ff4444'; break;
                case 'SPEED': player.damageMult = 1.0; player.speed = 8.5; player.maxHp = 140; player.color = '#4444ff'; player.hitbox = 1.75; break;
                case 'HP': player.damageMult = 1.1; player.speed = 4.0; player.maxHp = 200; player.color = '#00ff44'; break;
            }
@@ -362,7 +362,7 @@
            if (player.ultGauge < ULT_THRESHOLD || player.ultActive) return;
            player.ultActive = true; player.ultGauge = 0; ultUses++;
            updateUltUI();
-           if (player.type !== 'HP') { player.hp = Math.min(player.maxHp, player.hp + player.maxHp * 0.2); }
+           if (player.type !== 'HP') { player.hp = Math.min(player.maxHp, player.hp + player.maxHp * 0.3); }
            for (let i = 0; i < 60; i++) {
                const a = Math.random() * Math.PI * 2;
                effects.push({ x: player.x, y: player.y, vx: Math.cos(a) * 16, vy: Math.sin(a) * 16, life: 1.0, color: `hsl(${Math.random()*360}, 100%, 70%)`, size: 10, isTriangle: true, rotation: Math.random()*Math.PI*2, friction: 0.94 });
