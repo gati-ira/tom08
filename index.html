@@ -562,7 +562,7 @@
            ctx.fillStyle = '#010105'; ctx.fillRect(0,0,WIDTH,HEIGHT);
            stars.forEach(s => { s.y += s.speed; if(s.y>HEIGHT) s.y=-10; ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill(); });
  
-           if (meteor.warning) { ctx.fillStyle = (frame%30<15)?'rgba(255,0,0,0.15)':'rgba(255,0,0,0.05)'; ctx.fillRect(meteor.x, 0, meteor.width, HEIGHT); }
+           if (meteor.warning) { ctx.fillStyle = (frame%30<15)?'rgba(255,0,0,50)':'rgba(255,0,0,50)'; ctx.fillRect(meteor.x, 0, meteor.width, HEIGHT); }
            if (meteor.active) { ctx.fillStyle='#332'; ctx.beginPath(); ctx.arc(meteor.x+100, meteor.y+150, 110, 0, Math.PI*2); ctx.fill(); }
            if (screenFlash > 0) { ctx.fillStyle = `rgba(255,255,255,${screenFlash*0.02})`; ctx.fillRect(0,0,WIDTH,HEIGHT); }
  
