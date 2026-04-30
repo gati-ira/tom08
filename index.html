@@ -651,15 +651,15 @@
                        // ランキング登録用関数を呼び出し（外部定義想定）
                        submitAndShowRanking(name, score, deviceMode);
                    } else {
-                       resetGame(); [cite： 210]
+                       resetGame();
                    }
                }, 1000);
            } else {
                // 1〜4面クリア時：次のステージへ進むための最低限の表示
                document.getElementById('vic-title').textContent = `STAGE ${currentStage} CLEAR`;
                document.getElementById('vic-result-body').innerHTML = `<p>TIME BONUS: +${timeBonus}</p><p>HP BONUS: +${hpBonus}</p>`;
-               document.getElementById('next-btn').textContent = "NEXT STAGE"; [cite: 203]
-               document.getElementById('victory-screen').style.display = 'flex'; [cite: 203]
+               document.getElementById('next-btn').textContent = "NEXT STAGE";
+               document.getElementById('victory-screen').style.display = 'flex';
            }
        }
  
