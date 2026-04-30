@@ -622,27 +622,44 @@
                <div class="result-row total"><span>FINAL SCORE</span><span>${Math.floor(score)}</span></div>
            `;
        }
- 
-     function handleBossDefeated() {
+      function handleBossDefeated() {
            if (gameState !== 'PLAYING') return;
+           gameState = 'VICTORY_PAUSE';
+
+           // --- タイムボーナスの計算 ---
+           // ステージ開始時刻（stageStartTime）からの経過秒数を算出 [cite: 64, 100, 208]
+           const clearTimeSec = Math.floor((Date.now() - stageStartTime) / 1000); 
+           const targetTime = 60; // 目標時間（秒）
+           // 早く倒すほど高得点（1秒につき200点）。目標を超えた場合は0点
+           const timeBonus = Math.max(0, (targetTime - clearTimeSec) * 200); 
+           score += timeBonus;
+
+           // --- HPボーナスの計算 ---
+           // リザルト表示をスキップするため、ここで直接HPボーナスを加算 
+           const hpBonus = Math.floor((player.hp / player.maxHp) * 5000);
+           score += hpBonus;
+           
+           // HP履歴の記録 
+           const ratio = Math.floor((player.hp / player.maxHp) * 100);
+           hpHistory.push(`ST${currentStage}:${ratio}%`);
 
            if (currentStage === 5) {
-               gameState = 'VICTORY_PAUSE';
+               // 最終ステージクリア時：1秒待機してからランキング入力へ
                setTimeout(() => {
                    const name = prompt("全ステージクリア！ランキングに登録する名前を入力してください:", "PILOT");
                    if (name) {
+                       // ランキング登録用関数を呼び出し（外部定義想定）
                        submitAndShowRanking(name, score, deviceMode);
                    } else {
-                       resetGame();
+                       resetGame(); [cite: 210]
                    }
                }, 1000);
            } else {
-               // 1〜4面は通常通り
-               gameState = 'VICTORY_PAUSE';
-               document.getElementById('vic-result-body').innerHTML = calculateResults(false);
+               // 1〜4面クリア時：次のステージへ進むための最低限の表示
                document.getElementById('vic-title').textContent = `STAGE ${currentStage} CLEAR`;
-               document.getElementById('next-btn').textContent = "NEXT STAGE";
-               document.getElementById('victory-screen').style.display = 'flex';
+               document.getElementById('vic-result-body').innerHTML = `<p>TIME BONUS: +${timeBonus}</p><p>HP BONUS: +${hpBonus}</p>`;
+               document.getElementById('next-btn').textContent = "NEXT STAGE"; [cite: 203]
+               document.getElementById('victory-screen').style.display = 'flex'; [cite: 203]
            }
        }
  
