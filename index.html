@@ -727,6 +727,7 @@
       ctx.fillText(restartText, canvas.width / 2, canvas.height - 50);
 
       const restartHandler = (e) => {
+           if (gameState !== 'GAMEOVER') return;
            if (e.type === 'mousedown' && e.button !== 0) return;
 
            canvas.removeEventListener('mousedown', restartHandler);
