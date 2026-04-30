@@ -629,7 +629,7 @@
            // --- タイムボーナスの計算 ---
            // ステージ開始時刻（stageStartTime）からの経過秒数を算出 [cite: 64, 100, 208]
            const clearTimeSec = Math.floor((Date.now() - stageStartTime) / 1000); 
-           const targetTime = 60; // 目標時間（秒）
+           const targetTime = 120; // 目標時間（秒）
            // 早く倒すほど高得点（1秒につき200点）。目標を超えた場合は0点
            const timeBonus = Math.max(0, (targetTime - clearTimeSec) * 200); 
            score += timeBonus;
